@@ -5,7 +5,7 @@ vector<int> singleNumber(vector<int>& nums) {
         for (i = 0; i < n; ++i) 
             r ^= nums[i];
         
-        last = r & (~(r - 1));
+        last = r & (~(r - 1));//这一步是为了获得最右边的1的位置
         for (i = 0; i < n; ++i)
         {
             if ((last & nums[i]) != 0)
