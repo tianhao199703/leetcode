@@ -1,26 +1,16 @@
  int longestValidParentheses(string s) {
-        int n = s.size(),length=0;
-        stack<int> store;
-        for (int i = 0; i < n; i++) {
-            if (s[i] == '(') store.push(i);
-            else {
-                if (!store.empty()) {
-                    if (s[store.top()] == '(') store.pop();
-                    else store.push(i);
-                }
-                else store.push(i);
-            }
+        int n=s.size();
+        stack<int> pos;
+        for(int i=0;i<n;i++){
+            if(s[i] == ')' && !pos.empty() && s[pos.top()] == '(') pos.pop();
+            else pos.push(i);
         }
-        if (store.empty()) length = n;
-        else {
-            int a = n, b = 0;
-            while (!store.empty()) {
-                b = store.top(); 
-                store.pop();
-                length = max(length, a-b-1);
-                a = b;
-            }
-            length = max(length, a);
+        int a = n,length = 0,b;
+        while(!pos.empty()){
+            b = pos.top();
+            pos.pop();
+            length = max(length,a-b-1);
+            a = b;
         }
-        return length;
+        return max(length,a);
     }
