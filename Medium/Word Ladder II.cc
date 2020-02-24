@@ -1,4 +1,5 @@
-vector<vector<string>> paths;
+vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+	vector<vector<string>> paths;
 		vector<string> path(1, beginWord);
 		if (beginWord == endWord) {
 			paths.push_back(path);
@@ -16,7 +17,6 @@ vector<vector<string>> paths;
 			getPath(beginWord, endWord, nexts, path, paths);
 		return paths;
     }
-private:
     bool findLaddersHelper(unordered_set<string> &words1, unordered_set<string> &words2, unordered_set<string> &dict, unordered_map<string, vector<string> > &nexts, bool &words1IsBegin) {
 		words1IsBegin = !words1IsBegin;
 		if (words1.empty())
