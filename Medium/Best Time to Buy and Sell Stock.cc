@@ -10,11 +10,11 @@ int maxProfit(int k, vector<int>& prices) {
             return maxProfit;
         }
         //称下面这部分为代码2
-        vector<int> hold(k+1,INT_MAX),rele(k+1,0);
+        vector<int> hold(k+1,INT_MIN),rele(k+1,0);
         for(int i=0; i<prices.size(); i++){
             for(int j=1; j<=k; j++){
-                hold[j] = min(hold[j], prices[i]-rele[j-1]);
-                rele[j] = max(rele[j], prices[i]-hold[j]);
+                hold[j] = max(hold[j], rele[j-1]-prices[i]);
+                rele[j] = max(rele[j], prices[i]+hold[j]);
             }
         }
         return rele[k];
