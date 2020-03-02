@@ -20,4 +20,23 @@ int maxProfit(int k, vector<int>& prices) {
         return rele[k];
     }
  // 309 between each trans stands one cooldown.
+int n = prices.size();
+        if(n<2) return 0;
+        int hold=INT_MIN,rele=0,rele_pre=0;
+        for(int i=0; i<n; i++){
+            int tmp = rele;
+            hold = max(hold, rele_pre-prices[i]);//rele_pre表示这次出售需要隔一天
+            rele = max(rele, prices[i]+hold);
+            rele_pre = tmp;
+        }
+        return rele;
  // 714 charge fees for each trans.
+int n = prices.size();
+        if(n<2) return 0;
+        int hold=INT_MIN,rele=0;
+        for(int i=0; i<n; i++){
+            hold = max(hold, rele-prices[i]);
+            rele = max(rele, prices[i]+hold-fee);
+        }
+        return rele;
+
