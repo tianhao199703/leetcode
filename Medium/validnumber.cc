@@ -1,26 +1,65 @@
-bool isNumber(string str) {
-        int state=0, flag=0; // flag to judge the special case "."
-        while(str[0]==' ')  str.erase(0,1);//delete the  prefix whitespace 
-        while(str[str.length()-1]==' ') str.erase(str.length()-1, 1);//delete the suffix whitespace
-        for(int i=0; i<str.length(); i++){
-            if('0'<=str[i] && str[i]<='9'){
-                flag=1;
-                if(state<=2) state=2;
-                else state=(state<=5)?5:7;
+bool isNumber(string s) {
+        while(s[0]==' ')  s.erase(0,1);
+        if(s.size()==0) return false;
+        while(s[s.size()-1]==' ') s.erase(s.size()-1, 1);
+        int state = 0, n = s.size();
+        bool flag = false;
+        for(int i=0;i<n;i++){
+            if(s[i] <= '9' && s[i] >= '0'){
+                flag = true;
+                switch(state){
+                    case 0:
+                    case 1:
+                    case 2:
+                        state = 2;
+                        break;
+                    case 3:
+                    case 7:
+                        state = 7;
+                        break;
+                    case 4:
+                    case 5:
+                    case 6:
+                        state = 6;
+                        break;
+                }
             }
-            else if('+'==str[i] || '-'==str[i]){
-                if(state==0 || state==3) state++;
-                else return false;
+            else if(s[i] == '.'){
+                switch(state){
+                    case 0:
+                    case 1:
+                    case 2:
+                        state = 3;
+                        break;
+                    default:
+                        return false;
+                }
             }
-            else if('.'==str[i]){
-                if(state<=2) state=6;
-                else return false;
+            else if(s[i] == 'e' || s[i] == 'E'){
+                if(!flag) return false;
+                switch(state){
+                    case 2:
+                    case 3:
+                    case 7:
+                        state = 4;
+                        break;
+                    default:
+                        return false;
+                }
             }
-            else if('e'==str[i]){
-                if(flag&&(state==2 || state==6 || state==7)) state=3;
-                else return false;
+            else if(s[i] == '+' || s[i] == '-'){
+                switch(state){
+                    case 0:
+                        state = 1;
+                        break;
+                    case 4:
+                        state = 5;
+                        break;
+                    default:
+                        return false;
+                }
             }
-            else return false;
+            else {return false;}
         }
-        return (state==2 || state==5 || (flag&&state==6) || state==7);
+        return (state == 2 || (flag && state == 3) || state == 6 || state == 7);
     }
