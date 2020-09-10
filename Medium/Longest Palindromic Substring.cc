@@ -13,3 +13,23 @@
         }
         return s.substr(min_start, max_len);
     }
+//另一种用dp的方法，效率低一些，但是万能
+string longestPalindrome(string s) {
+        int len = s.size();
+        if (len < 2) return s;
+        int curmax = 0;
+        string curstr = "";
+        vector<vector<bool>> checkPalindrome(len,vector<bool>(len,false));
+        for (int right = 0; right < len; right++) {
+            for (int left = 0; left <= right; left++) {
+                if (s[left] == s[right] && (right - left <= 2 || checkPalindrome[left + 1][right - 1])) {
+                    checkPalindrome[left][right] = true;
+                    if(right-left+1 > curmax){
+                        curmax = right-left+1;
+                        curstr = s.substr(left,right-left+1);
+                    }
+                }
+            }
+        }
+        return curstr;
+    }
