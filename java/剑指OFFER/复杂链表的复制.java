@@ -15,3 +15,5 @@ class Solution {
         return cachedNode.get(head);
     }
 }
+
+// 迭代方法，每个节点后面复制一个一样的节点
